@@ -21,10 +21,11 @@ public class CoolWeatherDB {
 	 * 数据库版本
 	 */
 	public static final int VERSION = 1;
+	//数据库版本号
 	private static CoolWeatherDB coolWeatherDB;
 	private SQLiteDatabase db;
 	/*
-	 * 将构造方法私有化
+	 * 将构造方法私有化，单例设计模式，只有一个CoolWeatherDB实例
 	 */
 	private CoolWeatherDB(Context context){
 		CoolWeatherOpenHelper dbHelper = new CoolWeatherOpenHelper(context,DB_NAME,null,VERSION);
@@ -51,7 +52,7 @@ public class CoolWeatherDB {
 		}
 	}
 	/*
-	 * 从数据库读取全国所有的省份信息。
+	 * 从数据库读取全国所有的省份信息，读取到List中
 	 */
 	public List<Province> loadProvinces(){
 		List<Province> list = new ArrayList<Province>();
@@ -121,7 +122,7 @@ public class CoolWeatherDB {
 	 */
 	public List<County> loadCounties(int cityId){
 		List<County> list = new ArrayList<County>();
-		Cursor cursor = db.query("County", null, "city_id=?",
+		Cursor cursor = db.query("County", null, "city_id = ?",
 				new String[]{String.valueOf(cityId)}, null, null, null);
 		if(cursor.moveToFirst()){
 			do{
